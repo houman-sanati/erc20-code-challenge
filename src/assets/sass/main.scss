@@ -1,0 +1,14 @@
+$primary-color: #2F1793;
+$secondary-color: #24D9C5;
+
+.bg-primary {
+    background-color: $primary-color !important;
+}
+
+.bg-secondary {
+    background-color: $secondary-color !important;
+}
+
+.border-secondary {
+    border-color: $secondary-color !important;
+}
