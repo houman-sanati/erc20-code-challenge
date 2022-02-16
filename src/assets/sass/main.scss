@@ -12,3 +12,5 @@ $secondary-color: #24D9C5;
 .border-secondary {
     border-color: $secondary-color !important;
 }
+
+@import './components/table.scss';
