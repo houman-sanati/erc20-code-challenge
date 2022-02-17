@@ -7,8 +7,8 @@ import { getContractInstance } from "./util/ethersUtil";
 
 const App = () => {
 
-  const [contractAddress, setcontractAddress] = useState('0x6b175474e89094c44da98b954eedeac495271d0f')
-  const [eoaAddress, setEoaAddress] = useState('0xe5f8086dac91e039b1400febf0ab33ba3487f29a')
+  const [contractAddress, setcontractAddress] = useState('') //0x80fB784B7eD66730e8b1DBd9820aFD29931aab03
+  const [accountAddress, setAccountAddress] = useState('') //0x4dec38d2f3d8ce8922fa9551360abec4f722b2fd
 
   const [isLoading, setIsLoading] = useState(false)
 
@@ -16,7 +16,7 @@ const App = () => {
 
   const addToTable = (balance, name, symbol) => {
     const item = {
-      accountAddress: eoaAddress,
+      accountAddress: accountAddress,
       tokenAddress: contractAddress,
       balance: balance.toString(),
       tokenName: name,
@@ -28,11 +28,11 @@ const App = () => {
   }
 
   const onSubmit = async () => {
-    if (!eoaAddress || !contractAddress) return
+    if (!accountAddress || !contractAddress) return
     setIsLoading(true)
     const contractInstance = getContractInstance(contractAddress)
     Promise.all([
-      contractInstance.balanceOf(eoaAddress),
+      contractInstance.balanceOf(accountAddress),
       contractInstance.symbol(),
       contractInstance.name()
     ]).then(results => addToTable(results[0], results[1], results[2])).catch(err => {
@@ -62,12 +62,12 @@ const App = () => {
               </Col>
               <Col xs={12} md={4}>
                 <Form.Group className="mb-3">
-                  <Form.Label>{Strings.eoaAddress}</Form.Label>
-                  <Form.Control value={eoaAddress} onChange={(e) => setEoaAddress(e.target.value)} type="text" />
+                  <Form.Label>{Strings.accountAddress}</Form.Label>
+                  <Form.Control value={accountAddress} onChange={(e) => setAccountAddress(e.target.value)} type="text" />
                 </Form.Group>
               </Col>
               <Col xs={12} md={4} className='d-flex justify-content-center align-items-center'>
-                {isLoading ? <Spinner animation="grow" variant="primary" /> : <Button disabled={!eoaAddress || !contractAddress} className="bg-secondary border-secondary" type="submit" onClick={onSubmit}>{Strings.submit}</Button>}
+                {isLoading ? <Spinner animation="grow" variant="primary" /> : <Button disabled={!accountAddress || !contractAddress} className="bg-secondary border-secondary" type="submit" onClick={onSubmit}>{Strings.submit}</Button>}
               </Col>
             </Row>
           </Card.Body>
